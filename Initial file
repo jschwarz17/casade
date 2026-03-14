@@ -1,0 +1,7 @@
+git init   # if not already a git repo locally
+echo "# My Project" > README.md
+git add README.md
+git commit -m "Initial commit"
+git branch -M main   # or master, depending on your default
+git remote add origin https://github.com/yourusername/your-repo.git
+git push -u origin main

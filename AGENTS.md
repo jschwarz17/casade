@@ -2,14 +2,20 @@
 
 ## Cursor Cloud specific instructions
 
-This repository is currently a blank scaffold with no application code, dependencies, or services. The only file is `Initial file` (a placeholder with generic git setup instructions).
+This is a **Next.js 15** website (TypeScript, Tailwind CSS v4, App Router).
 
-- **No package manager or dependencies** are configured yet.
-- **No build system, linter, or test framework** is set up.
-- **No services** need to be started.
-- **No environment variables or secrets** are required.
+### Key commands
 
-When application code is added, update this file with:
-- How to install dependencies and which package manager to use.
-- How to run the dev server, linter, tests, and build.
-- Any non-obvious caveats discovered during setup.
+| Task | Command |
+|------|---------|
+| Dev server | `npm run dev` (port 3000) |
+| Lint | `npm run lint` |
+| Test | `npm test` |
+| Build | `npm run build` |
+
+### Non-obvious caveats
+
+- **Tailwind CSS v4** uses `@tailwindcss/postcss` plugin (not the older `tailwindcss` PostCSS plugin). CSS imports use `@import "tailwindcss"` instead of `@tailwind` directives.
+- **Jest** requires `ts-node` for TypeScript config parsing. The `jsx` setting is overridden to `react-jsx` in `jest.config.ts` (the main `tsconfig.json` uses `preserve` for Next.js).
+- **ESLint** uses flat config (`eslint.config.mjs`) with `@eslint/eslintrc` FlatCompat for Next.js integration.
+- The `next lint` command shows a deprecation warning (will be removed in Next.js 16) but still works.

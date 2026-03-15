@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const THEME_SONG_SRC = process.env.NEXT_PUBLIC_THEME_SONG_URL ?? "/theme-song.mp3";
+const THEME_SONG_SRC = process.env.NEXT_PUBLIC_THEME_SONG_URL ?? "/theme-song.wav";
 
 export default function ThemeSongPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -68,7 +68,7 @@ export default function ThemeSongPlayer() {
           setHasAudioError(true);
           setIsPlaying(false);
           setStatusMessage(
-            `Theme song could not load from ${THEME_SONG_SRC}. Add public/theme-song.mp3 or set NEXT_PUBLIC_THEME_SONG_URL.`
+            `Theme song could not load from ${THEME_SONG_SRC}. Add public/theme-song.wav or set NEXT_PUBLIC_THEME_SONG_URL.`
           );
         }}
       />

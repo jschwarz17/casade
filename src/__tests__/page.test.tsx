@@ -3,22 +3,12 @@ import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
 describe("Home page", () => {
-  it("renders the heading", () => {
+  it("renders only the hero image and audio hotspot", () => {
     render(<Home />);
-    const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveTextContent("Casade");
-  });
-
-  it("renders the welcome message", () => {
-    render(<Home />);
-    expect(
-      screen.getByText(/Welcome to Casade/)
-    ).toBeInTheDocument();
-  });
-
-  it("renders documentation and GitHub links", () => {
-    render(<Home />);
-    expect(screen.getByText("Documentation")).toBeInTheDocument();
-    expect(screen.getByText("GitHub")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Play theme song" })).toBeInTheDocument();
+    expect(screen.getByRole("presentation")).toBeInTheDocument();
+    expect(screen.queryByText("Documentation")).not.toBeInTheDocument();
+    expect(screen.queryByText("GitHub")).not.toBeInTheDocument();
+    expect(screen.queryByText("Welcome to Casade")).not.toBeInTheDocument();
   });
 });

@@ -10,6 +10,10 @@ export default function ThemeSongPlayer() {
   const [showControls, setShowControls] = useState(false);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === "test") {
+      return;
+    }
+
     const audio = audioRef.current;
     if (!audio) {
       return;

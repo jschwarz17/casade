@@ -29,7 +29,9 @@ describe("Home page", () => {
     expect(playSpy).toHaveBeenCalled();
 
     if (video instanceof HTMLVideoElement) {
-      fireEvent.ended(video);
+      Object.defineProperty(video, "duration", { configurable: true, value: 12 });
+      video.currentTime = 11.99;
+      fireEvent.timeUpdate(video);
       expect(playSpy).toHaveBeenCalledTimes(2);
       fireEvent.playing(video);
     }

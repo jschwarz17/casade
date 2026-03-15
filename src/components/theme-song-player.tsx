@@ -7,6 +7,7 @@ const HERO_IMAGE_SRC = "/casade-hero.jpg";
 const LANDING_VIDEO_SRC = "/casa-logo-video.mp4";
 export default function ThemeSongPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hasSettledOnOpeningFrame = useRef(false);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ export default function ThemeSongPlayer() {
       return;
     }
 
+    hasSettledOnOpeningFrame.current = false;
     video.currentTime = 0;
     void video.play().catch(() => {
       // Keep the page stable if autoplay is denied after click.
@@ -31,9 +33,10 @@ export default function ThemeSongPlayer() {
 
   const resetToFirstFrame = () => {
     const video = videoRef.current;
-    if (!video) {
+    if (!video || hasSettledOnOpeningFrame.current) {
       return;
     }
+    hasSettledOnOpeningFrame.current = true;
 
     const handlePlaying = () => {
       video.pause();
@@ -45,6 +48,17 @@ export default function ThemeSongPlayer() {
       video.pause();
       video.currentTime = 0;
     });
+  };
+
+  const handleVideoTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video || hasSettledOnOpeningFrame.current || !Number.isFinite(video.duration)) {
+      return;
+    }
+
+    if (video.currentTime >= video.duration - 0.05) {
+      resetToFirstFrame();
+    }
   };
 
   return (
@@ -59,6 +73,7 @@ export default function ThemeSongPlayer() {
           disablePictureInPicture
           controlsList="nodownload noplaybackrate noremoteplayback"
           onEnded={resetToFirstFrame}
+          onTimeUpdate={handleVideoTimeUpdate}
         />
       ) : (
         <>

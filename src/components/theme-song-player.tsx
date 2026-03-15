@@ -30,33 +30,21 @@ export default function ThemeSongPlayer() {
     setIsVideoVisible(true);
   };
 
-  const closeLandingVideo = () => {
-    const video = videoRef.current;
-    if (video) {
-      video.pause();
-      video.currentTime = 0;
-    }
-
-    setIsVideoVisible(false);
-  };
-
   return (
-    <div className="relative aspect-square w-full max-w-[960px] bg-black">
+    <div className="relative aspect-square w-full max-w-[960px] bg-[#0d0d0d]">
       {isVideoVisible ? (
         <video
           ref={videoRef}
           src={LANDING_VIDEO_SRC}
-          className="h-full w-full bg-black object-contain"
-          autoPlay
+          className="h-full w-full bg-[#0d0d0d] object-contain"
           playsInline
           preload="auto"
           disablePictureInPicture
           controlsList="nodownload noplaybackrate noremoteplayback"
-          onEnded={closeLandingVideo}
         />
       ) : (
         <>
-          <Image src={HERO_IMAGE_SRC} alt="" fill priority className="bg-black object-contain" />
+          <Image src={HERO_IMAGE_SRC} alt="" fill priority className="bg-[#0d0d0d] object-contain" />
           <button
             type="button"
             onClick={playLandingVideo}

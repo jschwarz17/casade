@@ -2,7 +2,7 @@ import ThemeSongPlayer from "@/components/theme-song-player";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black p-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0d0d0d] p-4">
       <main className="w-full max-w-[960px]">
         <ThemeSongPlayer />
       </main>

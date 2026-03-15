@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const HERO_IMAGE_SRC = "/casade-hero.jpg";
@@ -10,15 +10,10 @@ export default function ThemeSongPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
 
-  const playLandingVideo = async () => {
-    setIsVideoVisible(true);
-
-    // Wait until the video element is mounted after state update.
-    await new Promise((resolve) => {
-      requestAnimationFrame(() => {
-        resolve(undefined);
-      });
-    });
+  useEffect(() => {
+    if (!isVideoVisible) {
+      return;
+    }
 
     const video = videoRef.current;
     if (!video) {
@@ -26,7 +21,23 @@ export default function ThemeSongPlayer() {
     }
 
     video.currentTime = 0;
-    await video.play();
+    void video.play().catch(() => {
+      // Keep the page stable if autoplay is denied after click.
+    });
+  }, [isVideoVisible]);
+
+  const playLandingVideo = () => {
+    setIsVideoVisible(true);
+  };
+
+  const closeLandingVideo = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+
+    setIsVideoVisible(false);
   };
 
   return (
@@ -36,19 +47,20 @@ export default function ThemeSongPlayer() {
           ref={videoRef}
           src={LANDING_VIDEO_SRC}
           className="h-full w-full bg-black object-contain"
-          controls
+          autoPlay
           playsInline
           preload="auto"
+          disablePictureInPicture
+          controlsList="nodownload noplaybackrate noremoteplayback"
+          onEnded={closeLandingVideo}
         />
       ) : (
         <>
           <Image src={HERO_IMAGE_SRC} alt="" fill priority className="bg-black object-contain" />
           <button
             type="button"
-            onClick={() => {
-              void playLandingVideo();
-            }}
-            className="absolute left-1/2 top-[43%] h-[40%] w-[50%] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-md bg-black/90"
+            onClick={playLandingVideo}
+            className="absolute left-1/2 top-[43%] h-[40%] w-[50%] -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-transparent"
             aria-label="Play Casa video"
           />
         </>

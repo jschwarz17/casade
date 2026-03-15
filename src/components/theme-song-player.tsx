@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const THEME_SONG_SRC = process.env.NEXT_PUBLIC_THEME_SONG_URL ?? "/theme-song.wav";
-const HERO_IMAGE_SRC = "/casade-hero.svg";
+const HERO_IMAGE_SRC = "/casade-hero.jpg";
 
 export default function ThemeSongPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -40,7 +40,7 @@ export default function ThemeSongPlayer() {
         onClick={() => {
           void playThemeSong();
         }}
-        className="absolute left-1/2 top-[34%] h-[34%] w-[34%] -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-transparent disabled:cursor-not-allowed"
+        className="absolute left-1/2 top-[43%] h-[40%] w-[50%] -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-transparent disabled:cursor-not-allowed"
         aria-label="Play theme song"
         disabled={hasAudioError}
       />

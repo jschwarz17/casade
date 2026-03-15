@@ -3,9 +3,9 @@ import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
 describe("Home page", () => {
-  it("renders only the hero image and audio hotspot", () => {
+  it("renders the hero image with click-to-play video hotspot", () => {
     render(<Home />);
-    expect(screen.getByRole("button", { name: "Play theme song" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Play Casa video" })).toBeInTheDocument();
     const heroImage = screen.getByRole("presentation");
     expect(heroImage).toBeInTheDocument();
     expect(heroImage).toHaveAttribute("src", expect.stringContaining("casade-hero.jpg"));

@@ -30,8 +30,8 @@ describe("Home page", () => {
 
     if (video instanceof HTMLVideoElement) {
       fireEvent.ended(video);
-      expect(video.currentTime).toBeCloseTo(0.15, 2);
-      fireEvent.seeked(video);
+      expect(playSpy).toHaveBeenCalledTimes(2);
+      fireEvent.playing(video);
     }
 
     expect(document.querySelector("video")).toBeInTheDocument();

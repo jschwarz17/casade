@@ -37,7 +37,13 @@ export default function ThemeSongPlayer() {
     }
 
     video.pause();
-    video.currentTime = 0;
+
+    const handleLoadedData = () => {
+      video.currentTime = 0;
+    };
+
+    video.addEventListener("loadeddata", handleLoadedData, { once: true });
+    video.load();
   };
 
   return (

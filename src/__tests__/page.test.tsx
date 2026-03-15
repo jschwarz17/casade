@@ -7,6 +7,7 @@ describe("Home page", () => {
     const playSpy = jest
       .spyOn(window.HTMLMediaElement.prototype, "play")
       .mockImplementation(() => Promise.resolve());
+    const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, "pause").mockImplementation();
 
     render(<Home />);
     expect(screen.getByRole("button", { name: "Play Casa video" })).toBeInTheDocument();
@@ -27,13 +28,17 @@ describe("Home page", () => {
     expect(video).toBeInTheDocument();
     expect(playSpy).toHaveBeenCalled();
 
-    if (video) {
+    if (video instanceof HTMLVideoElement) {
+      video.currentTime = 5;
       fireEvent.ended(video);
+      expect(video.currentTime).toBe(0);
     }
 
     expect(document.querySelector("video")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Play Casa video" })).not.toBeInTheDocument();
+    expect(pauseSpy).toHaveBeenCalled();
 
     playSpy.mockRestore();
+    pauseSpy.mockRestore();
   });
 });

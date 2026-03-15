@@ -1,7 +1,10 @@
+import ThemeSongPlayer from "@/components/theme-song-player";
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8">
       <main className="flex flex-col items-center gap-8 max-w-2xl text-center">
+        <ThemeSongPlayer />
         <h1 className="text-5xl font-bold tracking-tight">Casade</h1>
         <p className="text-xl text-gray-600 dark:text-gray-400">
           Welcome to Casade. Your website is ready for development.

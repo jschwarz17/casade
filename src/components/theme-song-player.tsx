@@ -5,6 +5,7 @@ import Image from "next/image";
 
 const HERO_IMAGE_SRC = "/casade-hero.jpg";
 const LANDING_VIDEO_SRC = "/casa-logo-video.mp4";
+const OPENING_FRAME_TIME_SECONDS = 0.15;
 
 export default function ThemeSongPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -36,14 +37,12 @@ export default function ThemeSongPlayer() {
       return;
     }
 
-    video.pause();
-
-    const handleLoadedData = () => {
-      video.currentTime = 0;
+    const handleSeeked = () => {
+      video.pause();
     };
 
-    video.addEventListener("loadeddata", handleLoadedData, { once: true });
-    video.load();
+    video.addEventListener("seeked", handleSeeked, { once: true });
+    video.currentTime = OPENING_FRAME_TIME_SECONDS;
   };
 
   return (

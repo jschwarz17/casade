@@ -32,10 +32,11 @@ describe("Home page", () => {
       Object.defineProperty(video, "duration", { configurable: true, value: 12 });
       video.currentTime = 11.99;
       fireEvent.timeUpdate(video);
-      expect(video.currentTime).toBeCloseTo(2, 2);
     }
 
-    expect(document.querySelector("video")).toBeInTheDocument();
+    const openingStill = screen.getByRole("presentation");
+    expect(openingStill).toHaveAttribute("src", expect.stringContaining("casa-opening-tyler.jpg"));
+    expect(document.querySelector("video")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Play Casa video" })).not.toBeInTheDocument();
     expect(pauseSpy).toHaveBeenCalled();
 

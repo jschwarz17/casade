@@ -5,11 +5,12 @@ import Image from "next/image";
 
 const HERO_IMAGE_SRC = "/casade-hero.jpg";
 const LANDING_VIDEO_SRC = "/casa-logo-video.mp4";
-const FIRST_PLAYBACK_FRAME_TIME_SECONDS = 2;
+const OPENING_FRAME_STILL_SRC = "/casa-opening-tyler.jpg";
 export default function ThemeSongPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasSettledOnOpeningFrame = useRef(false);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [showOpeningFrameAfterEnd, setShowOpeningFrameAfterEnd] = useState(false);
 
   useEffect(() => {
     if (!isVideoVisible) {
@@ -29,17 +30,17 @@ export default function ThemeSongPlayer() {
   }, [isVideoVisible]);
 
   const playLandingVideo = () => {
+    setShowOpeningFrameAfterEnd(false);
     setIsVideoVisible(true);
   };
 
   const resetToFirstFrame = () => {
-    const video = videoRef.current;
-    if (!video || hasSettledOnOpeningFrame.current) {
+    if (hasSettledOnOpeningFrame.current) {
       return;
     }
     hasSettledOnOpeningFrame.current = true;
-    video.pause();
-    video.currentTime = FIRST_PLAYBACK_FRAME_TIME_SECONDS;
+    videoRef.current?.pause();
+    setShowOpeningFrameAfterEnd(true);
   };
 
   const handleVideoTimeUpdate = () => {
@@ -56,6 +57,15 @@ export default function ThemeSongPlayer() {
   return (
     <div className="relative aspect-square w-full max-w-[960px] bg-[#0d0d0d]">
       {isVideoVisible ? (
+        showOpeningFrameAfterEnd ? (
+          <Image
+            src={OPENING_FRAME_STILL_SRC}
+            alt=""
+            fill
+            priority
+            className="bg-[#0d0d0d] object-contain"
+          />
+        ) : (
         <video
           ref={videoRef}
           src={LANDING_VIDEO_SRC}
@@ -67,6 +77,7 @@ export default function ThemeSongPlayer() {
           onEnded={resetToFirstFrame}
           onTimeUpdate={handleVideoTimeUpdate}
         />
+        )
       ) : (
         <>
           <Image src={HERO_IMAGE_SRC} alt="" fill priority className="bg-[#0d0d0d] object-contain" />

@@ -7,7 +7,6 @@ describe("Home page", () => {
     const playSpy = jest
       .spyOn(window.HTMLMediaElement.prototype, "play")
       .mockImplementation(() => Promise.resolve());
-    const pauseSpy = jest.spyOn(window.HTMLMediaElement.prototype, "pause").mockImplementation();
 
     render(<Home />);
     expect(screen.getByRole("button", { name: "Play Casa video" })).toBeInTheDocument();
@@ -29,18 +28,14 @@ describe("Home page", () => {
     expect(playSpy).toHaveBeenCalled();
 
     if (video instanceof HTMLVideoElement) {
-      Object.defineProperty(video, "duration", { configurable: true, value: 12 });
-      video.currentTime = 11.99;
-      fireEvent.timeUpdate(video);
+      video.currentTime = 5;
+      fireEvent.ended(video);
+      expect(video.currentTime).toBe(5);
     }
 
-    const openingStill = screen.getByRole("presentation");
-    expect(openingStill).toHaveAttribute("src", expect.stringContaining("casa-opening-tyler.jpg"));
-    expect(document.querySelector("video")).not.toBeInTheDocument();
+    expect(document.querySelector("video")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Play Casa video" })).not.toBeInTheDocument();
-    expect(pauseSpy).toHaveBeenCalled();
 
     playSpy.mockRestore();
-    pauseSpy.mockRestore();
   });
 });

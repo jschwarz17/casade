@@ -30,16 +30,6 @@ export default function ThemeSongPlayer() {
     setIsVideoVisible(true);
   };
 
-  const resetToFirstFrame = () => {
-    const video = videoRef.current;
-    if (!video) {
-      return;
-    }
-
-    video.pause();
-    video.currentTime = 0;
-  };
-
   return (
     <div className="relative aspect-square w-full max-w-[960px] bg-[#0d0d0d]">
       {isVideoVisible ? (
@@ -51,7 +41,6 @@ export default function ThemeSongPlayer() {
           preload="auto"
           disablePictureInPicture
           controlsList="nodownload noplaybackrate noremoteplayback"
-          onEnded={resetToFirstFrame}
         />
       ) : (
         <>
